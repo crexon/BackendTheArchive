@@ -47,9 +47,10 @@ INSTALLED_APPS = [
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES':(
         'rest_framework.authentication.TokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication'
     ),
 }
+
+AUTH_USER_MODE = "theArchiveDB_app.Usuario"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -91,9 +92,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'archiveDB',
         'USER': 'postgres',
-        'PASSWORD': '656761020',
+        'PASSWORD': 'root',
         'HOST': '127.0.0.1',
-        'PORT': '3001'
+        'PORT': '5432'
     }
 }
 

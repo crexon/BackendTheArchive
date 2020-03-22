@@ -1,28 +1,25 @@
 # Create your views here.
-from rest_framework import status, viewsets
-from theArchiveDB_app.serializer import RegistrationSerializer
+from django.contrib.auth.models import User
+from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, action
-from rest_framework.views import APIView
 from django.contrib.auth import authenticate, login
 from .serializer import *
 from .models import *
 from django.shortcuts import get_object_or_404
 
 
-@api_view(['POST', ])
-def registration_view(request):
-    if request.method == 'POST':
-        serializer = RegistrationSerializer(data=request.data)
-        data = {}
-        if serializer.is_valid():
-            account = serializer.save()
-            data['response'] = 'Nuevo usuario registrado correctamente'
-            data['username'] = account.username
-            data['email'] = account.email
-        else:
-            data = serializer.errors
-        return Response(data)
+class Register(APIView):
+    # permission_classes = (IsAuthenticated,)
+    def post(self, request):
+        user = User.objects.create(
+            username=request.data.get('username'),
+            first_name=request.data.get('name'),
+            last_name=request.data.get('surname'),
+        )
+        user.set_password(str(request.data.get('password')))
+        user.save()
+        return Response({"status": "success", "response": "User Successfully Created"}, status=status.HTTP_201_CREATED)
 
 
 def login_view(request):
@@ -39,7 +36,8 @@ def login_view(request):
 
 
 class UserList(APIView):
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
+
     def get(self, request):
         user_list = Usuario.objects.all()
         user_list_data = UserSerializer(user_list, many=True).data
@@ -92,5 +90,3 @@ class BookDetail(APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-

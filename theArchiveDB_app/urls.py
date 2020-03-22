@@ -1,12 +1,14 @@
 from django.urls import path
 from rest_framework.authtoken.views import obtain_auth_token
-from theArchiveDB_app.views import (registration_view, UserDetail, UserList, BookList, BookDetail)
+from theArchiveDB_app.views import (Register, UserDetail, UserList, BookList, BookDetail)
 
 app_name = "Archive"
 
 urlpatterns = [
     #USUARIOS
-    path('signup/', registration_view, name="Registrarse"),
+    path('signup/', Register.as_view(), name="Registrarse"),
+    path('login/', obtain_auth_token, name="Login"),
+
     path('user/', UserList.as_view(), name="Listado de usuarios"),
     path('user/<slug:username>', UserDetail.as_view(), name="Usuario"),
 
