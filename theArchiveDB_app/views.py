@@ -39,24 +39,24 @@ class UserList(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request):
-        user_list = Usuario.objects.all()
+        user_list = User.objects.all()
         user_list_data = UserSerializer(user_list, many=True).data
         return Response(user_list_data)
 
 
 class UserDetail(APIView):
     def get(self, request, username):
-        user_detail = get_object_or_404(Usuario, username=username)
+        user_detail = get_object_or_404(User, username=username)
         user_detail_data = UserSerializer(user_detail).data
         return Response(user_detail_data)
 
     def delete(self, request, username):
-        user_detail = get_object_or_404(Usuario, username=username)
+        user_detail = get_object_or_404(User, username=username)
         user_detail.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     def put(self, request, username):
-        user_detail = get_object_or_404(Usuario, username=username)
+        user_detail = get_object_or_404(User, username=username)
         serializer = UserSerializer(user_detail, data=request.data)
         if serializer.is_valid():
             serializer.save()
