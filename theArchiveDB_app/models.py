@@ -10,23 +10,19 @@ from rest_framework.authtoken.models import Token
 # Create your models here.
 
 class Libro(models.Model):
-    title = models.CharField(max_length=25, blank=False)
-    author = models.CharField(max_length=20, blank=False)
-    rate_average = models.CharField(max_length=50, blank=False)
-    publish_date = models.DateField()
-    valoration = models.ManyToManyField(User, through='Valoracion', related_name='+')
-    estanteria = models.OneToOneField(User, on_delete=models.CASCADE)
+    identifier = models.CharField(max_length=150, blank=False)
+    estanteria = models.ManyToManyField(User, through='Estanteria')
     objects = models.Manager()
 
     def __str__(self):
-        return "%s" % self.title
+        return "%s" % self.identifier
 
 
 class Estanteria(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name='+')
     book_id = models.ForeignKey(Libro, on_delete=models.CASCADE, related_name='+')
     state = models.IntegerField(blank=False)
-    puntuation = models.FloatField(blank=False)
+    recommendation = models.BooleanField(blank=True)
     objects = models.Manager()
 
     def __str__(self):
