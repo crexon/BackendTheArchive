@@ -17,7 +17,7 @@ class BookList(APIView):
         b = Libro.objects.get(identifier=request.data.get("identifier"))
 
         if request.method == "POST":
-            libro_obj = Estanteria(user_id=request.data.get("identifier"))
+            libro_obj = Libro(user_id=request.data.get("identifier"))
             libro_obj.save()
         return Response({"status": "success", "response": "Libro Successfully Created"},
                         status=status.HTTP_201_CREATED)

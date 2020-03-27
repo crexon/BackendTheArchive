@@ -13,12 +13,21 @@ class EstanteriaList(APIView):
 
     def post(self, request):
         u = User.objects.get(username=request.data.get("username"))
-        b = Libro.objects.get(identifier=request.data.get("identifier"))
 
         if request.method == "POST":
-            estanteria_obj = Estanteria(user_id=u, book_id=b, state=request.data.get("state"),
-                                        recommendation=request.data.get("recommendation"))
-            estanteria_obj.save()
+            if Libro.objects.filter(identifier=request.data.get("identifier")).exists():
+                b = Libro.objects.get(identifier=request.data.get("identifier"))
+
+                estanteria_obj = Estanteria(user_id=u, book_id=b, state=request.data.get("state"),
+                                            recommendation=request.data.get("recommendation"))
+                estanteria_obj.save()
+            else:
+                b = Libro(identifier=request.data.get("identifier"))
+                b.save()
+                estanteria_obj = Estanteria(user_id=u, book_id=b, state=request.data.get("state"),
+                                            recommendation=request.data.get("recommendation"))
+                estanteria_obj.save()
+
         return Response({"status": "success", "response": "Estanteria Successfully Created"},
                         status=status.HTTP_201_CREATED)
 
