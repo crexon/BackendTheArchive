@@ -22,7 +22,9 @@ class Estanteria(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name='+')
     book_id = models.ForeignKey(Libro, on_delete=models.CASCADE, related_name='+')
     state = models.IntegerField(blank=False)
-    recommendation = models.BooleanField(blank=True)
+    progress = models.IntegerField(blank=False)
+    recommendation = models.IntegerField(blank=True)
+    # recommendation = models.BooleanField(blank=True)
     objects = models.Manager()
 
     def __str__(self):

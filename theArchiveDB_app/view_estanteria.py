@@ -15,16 +15,23 @@ class EstanteriaList(APIView):
         u = User.objects.get(username=request.data.get("username"))
 
         if request.method == "POST":
+
             if Libro.objects.filter(identifier=request.data.get("identifier")).exists():
                 b = Libro.objects.get(identifier=request.data.get("identifier"))
-
-                estanteria_obj = Estanteria(user_id=u, book_id=b, state=request.data.get("state"),
-                                            recommendation=request.data.get("recommendation"))
-                estanteria_obj.save()
+                if Estanteria.objects.filter(user_id=u,
+                                             book_id=b).exists():
+                    return Response({"status": "Error", "response": "El usuario ya tiene ese libro"},
+                                    status=status.HTTP_201_CREATED)
+                else:
+                    estanteria_obj = Estanteria(user_id=u, book_id=b, state=request.data.get("state"),
+                                                progress=request.data.get("progress"),
+                                                recommendation=request.data.get("recommendation"))
+                    estanteria_obj.save()
             else:
                 b = Libro(identifier=request.data.get("identifier"))
                 b.save()
                 estanteria_obj = Estanteria(user_id=u, book_id=b, state=request.data.get("state"),
+                                            progress=request.data.get("progress"),
                                             recommendation=request.data.get("recommendation"))
                 estanteria_obj.save()
 
