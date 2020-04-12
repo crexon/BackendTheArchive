@@ -20,8 +20,8 @@ class EstanteriaList(APIView):
                 b = Libro.objects.get(identifier=request.data.get("identifier"))
                 if Estanteria.objects.filter(user_id=u,
                                              book_id=b).exists():
-                    return Response({"status": "Error", "response": "El usuario ya tiene ese libro"},
-                                    status=status.HTTP_201_CREATED)
+                    return Response(status=status.HTTP_306_RESERVED)
+
                 else:
                     estanteria_obj = Estanteria(user_id=u, book_id=b, state=request.data.get("state"),
                                                 progress=request.data.get("progress"),
