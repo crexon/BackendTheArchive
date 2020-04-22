@@ -45,6 +45,7 @@ class UserDetail(APIView):
         serializer = UserSerializer(user_detail, data=request.data)
         if serializer.is_valid():
             serializer.save()
+            user_detail.set_password(str(request.data.get('password')))
+            user_detail.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
