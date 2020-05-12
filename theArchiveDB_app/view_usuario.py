@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from django.contrib.auth import authenticate, login
 from .serializer import *
 from .models import *
+import datetime
 from django.shortcuts import get_object_or_404
 
 
@@ -21,7 +22,7 @@ class Register(APIView):
 
 
 class UserList(APIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
 
     def get(self, request):
         user_list = User.objects.all()
@@ -46,6 +47,8 @@ class UserDetail(APIView):
         if serializer.is_valid():
             serializer.save()
             user_detail.set_password(str(request.data.get('password')))
+            feed_obj = Update(username=username, type=4, date=datetime.date.today())
             user_detail.save()
+            feed_obj.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

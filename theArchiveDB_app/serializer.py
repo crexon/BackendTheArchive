@@ -20,3 +20,9 @@ class EstanteriaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Estanteria
         fields = '__all__'
+
+
+class FeedSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Update
+        fields = '__all__'

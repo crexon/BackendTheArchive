@@ -1,6 +1,7 @@
 from rest_framework import status, viewsets
 from rest_framework.response import Response
 from .serializer import *
+import datetime
 from .models import *
 
 
@@ -26,7 +27,12 @@ class EstanteriaList(APIView):
                     estanteria_obj = Estanteria(user_id=u, book_id=b, state=request.data.get("state"),
                                                 progress=request.data.get("progress"),
                                                 recommendation=request.data.get("recommendation"))
+
+                    feed_obj = Update(username=u.username, type=request.data.get("state"), date=datetime.date.today())
+
                     estanteria_obj.save()
+                    feed_obj.save()
+
             else:
                 b = Libro(identifier=request.data.get("identifier"))
                 b.save()
@@ -34,6 +40,9 @@ class EstanteriaList(APIView):
                                             progress=request.data.get("progress"),
                                             recommendation=request.data.get("recommendation"))
                 estanteria_obj.save()
+
+                feed_obj = Update(username=u.username, type=request.data.get("state"), date=datetime.date.today())
+                feed_obj.save()
 
         return Response({"status": "success", "response": "Estanteria Successfully Created"},
                         status=status.HTTP_201_CREATED)
@@ -66,6 +75,6 @@ class EstanteriaReading(APIView):
 class EstanteriaWantTo(APIView):
     def get(self, request, username):
         u = User.objects.get(username=username)
-        estanteria_list = Estanteria.objects.filter(user_id=u, state=0)
+        estanteria_list = Estanteria.objects.filter(user_id=u, state=3)
         estanteria_list_data = EstanteriaSerializer(estanteria_list, many=True).data
         return Response(estanteria_list_data)

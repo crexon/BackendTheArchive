@@ -53,14 +53,13 @@ class Challange(models.Model):
 
 
 class Update(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name='+')
-    description = models.IntegerField(blank=False)
-    total_votes = models.ManyToManyField(User, related_name='+')
-    comment = models.ManyToManyField(User, through="Comment", related_name='+')
+    username = models.CharField(max_length=200, blank=False)
+    type = models.IntegerField(blank=False)
+    date = models.DateField(blank=False)
     objects = models.Manager()
 
     def __str__(self):
-        return "%s" % self.description
+        return "%s" % self.username
 
 
 class Comment(models.Model):
