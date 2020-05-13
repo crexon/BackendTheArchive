@@ -1,5 +1,6 @@
 # Create your views here.
 from rest_framework import status, viewsets
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .serializer import *
 from .models import *
@@ -7,7 +8,8 @@ from django.shortcuts import get_object_or_404
 
 
 class BookList(APIView):
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
+
     def get(self, request):
         book_list = Libro.objects.all()
         book_list_data = BookSerializer(book_list, many=True).data
@@ -24,6 +26,8 @@ class BookList(APIView):
 
 
 class BookDetail(APIView):
+    permission_classes = (IsAuthenticated,)
+
     def get(self, request, pk):
         book_detail = get_object_or_404(Libro, pk=pk)
         book_detail_data = BookSerializer(book_detail).data
@@ -44,6 +48,8 @@ class BookDetail(APIView):
 
 
 class MyBookViewSet(viewsets.ModelViewSet):
+    permission_classes = (IsAuthenticated,)
+
     serializer_class = BookSerializer
 
     def get_queryset(self, request):

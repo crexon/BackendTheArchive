@@ -9,7 +9,6 @@ from django.shortcuts import get_object_or_404
 
 
 class Register(APIView):
-    # permission_classes = (IsAuthenticated,)
     def post(self, request):
         user = User.objects.create(
             username=request.data.get('username'),
@@ -22,7 +21,7 @@ class Register(APIView):
 
 
 class UserList(APIView):
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
 
     def get(self, request):
         user_list = User.objects.all()
@@ -31,6 +30,8 @@ class UserList(APIView):
 
 
 class UserDetail(APIView):
+    permission_classes = (IsAuthenticated,)
+
     def get(self, request, username):
         user_detail = get_object_or_404(User, username=username)
         user_detail_data = UserSerializer(user_detail).data

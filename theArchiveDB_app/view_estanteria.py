@@ -1,4 +1,5 @@
 from rest_framework import status, viewsets
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .serializer import *
 import datetime
@@ -6,6 +7,7 @@ from .models import *
 
 
 class EstanteriaList(APIView):
+    permission_classes = (IsAuthenticated,)
 
     def get(self, request):
         estanteria_list = Estanteria.objects.all()
@@ -49,6 +51,8 @@ class EstanteriaList(APIView):
 
 
 class EstanteriaDetail(APIView):
+    permission_classes = (IsAuthenticated,)
+
     def get(self, request, username):
         u = User.objects.get(username=username)
         estanteria_list = Estanteria.objects.filter(user_id=u)
@@ -57,6 +61,8 @@ class EstanteriaDetail(APIView):
 
 
 class EstanteriaRead(APIView):
+    permission_classes = (IsAuthenticated,)
+
     def get(self, request, username):
         u = User.objects.get(username=username)
         estanteria_list = Estanteria.objects.filter(user_id=u, state=1)
@@ -65,6 +71,8 @@ class EstanteriaRead(APIView):
 
 
 class EstanteriaReading(APIView):
+    permission_classes = (IsAuthenticated,)
+
     def get(self, request, username):
         u = User.objects.get(username=username)
         estanteria_list = Estanteria.objects.filter(user_id=u, state=2)
@@ -73,6 +81,8 @@ class EstanteriaReading(APIView):
 
 
 class EstanteriaWantTo(APIView):
+    permission_classes = (IsAuthenticated,)
+
     def get(self, request, username):
         u = User.objects.get(username=username)
         estanteria_list = Estanteria.objects.filter(user_id=u, state=3)
