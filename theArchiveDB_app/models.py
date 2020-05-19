@@ -1,4 +1,5 @@
 from django.contrib.auth.base_user import AbstractBaseUser
+from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager, User
 from django.conf import settings
@@ -11,6 +12,14 @@ from rest_framework.authtoken.models import Token
 
 class Libro(models.Model):
     identifier = models.CharField(max_length=150, blank=False)
+    title = models.CharField(max_length=150, blank=False)
+    authors = models.TextField(blank=False)
+    publisher = models.CharField(max_length=150, blank=False)
+    description = models.TextField(blank=False)
+    publishedDate = models.CharField(max_length=150, blank=False)
+    pageCount = models.CharField(max_length=150, blank=False)
+    categories = models.TextField(blank=False)
+    thumbnail = models.TextField(blank=False)
     estanteria = models.ManyToManyField(User, through='Estanteria')
     objects = models.Manager()
 
