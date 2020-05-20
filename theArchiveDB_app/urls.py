@@ -3,7 +3,7 @@ from rest_framework.authtoken.views import obtain_auth_token
 from theArchiveDB_app.view_usuario import (Register, UserDetail, UserList)
 from theArchiveDB_app.view_libro import (BookList, BookDetail)
 from theArchiveDB_app.view_feed import (FeedList)
-from theArchiveDB_app.view_estanteria import (EstanteriaDetail, EstanteriaList, EstanteriaByType)
+from theArchiveDB_app.view_estanteria import (EstanteriaDetail, EstanteriaList, EstanteriaByType, DeleteEstanteria)
 
 app_name = "Archive"
 
@@ -23,6 +23,7 @@ urlpatterns = [
     path('estanteria/', EstanteriaList.as_view(), name="Listado de estaneria"),
     path('estanteria/<slug:username>', EstanteriaDetail.as_view(), name="Listado de estaneria por usuario"),
     path('estanteria/<int:state>/<slug:username>', EstanteriaByType.as_view(), name="Listado libros"),
+    path('estanteria/<slug:username>/<slug:idbook>', DeleteEstanteria.as_view(), name="Eliminar libros"),
 
     #FEED
     path('feed/', FeedList.as_view(), name="Historial de acciones")

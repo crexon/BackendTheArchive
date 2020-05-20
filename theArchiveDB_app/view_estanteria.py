@@ -80,3 +80,13 @@ class EstanteriaByType(APIView):
         book_list = Libro.objects.filter(identifier__in=estanteria.values_list('book_id__identifier'))
         book_list_data = BookSerializer(book_list, many=True).data
         return Response(book_list_data)
+
+
+class DeleteEstanteria(APIView):
+
+    def delete(self, request, username, idbook):
+        u = User.objects.get(username=username)
+        book_detail = get_object_or_404(Libro, identifier=idbook)
+        estantera_detail = get_object_or_404(Estanteria, user_id=u, book_id=book_detail)
+        estantera_detail.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
