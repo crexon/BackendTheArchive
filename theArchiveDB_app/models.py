@@ -8,14 +8,14 @@ from rest_framework.authtoken.models import Token
 
 class Libro(models.Model):
     identifier = models.CharField(max_length=150, blank=False)
-    title = models.CharField(max_length=150, blank=False)
-    authors = models.TextField(blank=False)
-    publisher = models.CharField(max_length=150, blank=False)
-    description = models.TextField(blank=False)
-    publishedDate = models.CharField(max_length=150, blank=False)
-    pageCount = models.CharField(max_length=150, blank=False)
-    categories = models.TextField(blank=False)
-    thumbnail = models.TextField(blank=False)
+    title = models.CharField(max_length=150, blank=True)
+    authors = models.TextField(blank=True)
+    publisher = models.CharField(max_length=150, blank=True)
+    description = models.TextField(blank=True)
+    publishedDate = models.CharField(max_length=150, blank=True)
+    pageCount = models.CharField(max_length=150, blank=True)
+    categories = models.TextField(blank=True)
+    thumbnail = models.TextField(blank=True)
     estanteria = models.ManyToManyField(User, through='Estanteria')
     objects = models.Manager()
 
